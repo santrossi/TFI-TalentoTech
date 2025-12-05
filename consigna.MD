@@ -1,4 +1,4 @@
-Requerimientos Específicos:
+# Requerimientos Específicos:
 
 - 1. Base de datos:
 Crear una base de datos SQLite llamada 'inventario.db' para almacenar los datos de los productos. La tabla 'productos' debe contener las siguientes columnas:
