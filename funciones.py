@@ -12,7 +12,8 @@ def nueva_tabla():
             descripcion TEXT,
             cantidad INTEGER NOT NULL,
             precio REAL NOT NULL,
-            categoria TEXT,
+            categoria TEXT
+        )
     ''')
     conexion.commit()
     conexion.close()
