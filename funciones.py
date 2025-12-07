@@ -50,13 +50,13 @@ def mostrar_productos():
     conexion.commit()
     conexion.close()
     
-def colores():
-    print(cl.Fore.MAGENTA +"\n---------------------------\n • Gestión de Inventario •\n---------------------------\n")
-    print(cl.Fore.GREEN + "(1) - Registrar un producto")
-    print(cl.Fore.YELLOW + "(2) - Ver todos los productos")
-    print(cl.Fore.GREEN + "(3) - Actualizar cantidad de un producto")
-    print(cl.Fore.RED + "(4) - Eliminar un producto")
-    print(cl.Fore.YELLOW + "(5) - Buscar un producto")
-    print(cl.Fore.CYAN + "(6) - Control de stock")
-    print(cl.Fore.WHITE + "(7) - Salir\n")
+# colores:
+#    print(cl.Fore.MAGENTA +"\n---------------------------\n • Gestión de Inventario •\n---------------------------\n")     SYSTEM
+#    print(cl.Fore.GREEN + "(1) - Registrar un producto")                                                                   ADD
+#    print(cl.Fore.YELLOW + "(2) - Ver todos los productos")                                                                READ 
+#    print(cl.Fore.GREEN + "(3) - Actualizar cantidad de un producto")                                                      UPDATE
+#    print(cl.Fore.RED + "(4) - Eliminar un producto")                                                                      DELETE
+#    print(cl.Fore.YELLOW + "(5) - Buscar un producto")                                                                     READ
+#    print(cl.Fore.CYAN + "(6) - Control de stock")                                                                         READ
+#    print(cl.Fore.WHITE + "(7) - Salir\n")                                                                                 EXIT
     
