@@ -6,7 +6,7 @@ def nueva_tabla():
     conexion = sql.connect("inventario.db")
     cursor = conexion.cursor()
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS   (
+        CREATE TABLE IF NOT EXISTS productos(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             nombre TEXT NOT NULL,
             descripcion TEXT,
@@ -36,7 +36,16 @@ def registrar_producto():
     cantidad_prod = int(input("Ingrese la cantidad: "))
     precio_prod = float(input("Ingrese el precio del producto: $"))
     categoria_prod = input("Ingrese la categoría del producto: ").lower().capitalize()
-    
+
+    conexion = sql.connect("inventario.db")
+    cursor = conexion.cursor()
+    cursor.execute('''
+        INSERT INTO productos (nombre, descripcion, cantidad, precio, categoria)
+        VALUES (?, ?, ?, ?, ?)
+    ''', (nombre_prod,descripcion_prod,cantidad_prod,precio_prod,categoria_prod))
+    conexion.commit()
+    conexion.close()
+
     print("\n-----------------------\n - Producto agregado -\n-----------------------\n")
 
 def mostrar_productos():
