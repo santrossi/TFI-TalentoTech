@@ -50,13 +50,28 @@ def registrar_producto():
     print("\n-----------------------\n - Producto agregado -\n-----------------------\n")
 
 def mostrar_productos():
-    print(cl.Fore.YELLOW + "\n-----------------------------------------\n • Seleccionaste VER TODOS LOS PRODUCTOS •\n-----------------------------------------\n")
+    print(cl.Fore.YELLOW + "\n-------------------------------------------\n • Seleccionaste VER TODOS LOS PRODUCTOS •\n-------------------------------------------\n")
     conexion = sql.connect("inventario.db")
     cursor = conexion.cursor()
     cursor.execute('SELECT * FROM productos')
     productos = cursor.fetchall()
-    for producto in productos:
-        print(f"ID: {producto[0]} | Nombre: {producto[1]} | Descripción: {producto[2]} | Cantidad: {producto[3]} | Precio: ${producto[4]} | Categoría: {producto[5]}")
+    if (len(productos)>0):
+        for producto in productos:
+            print(f"ID: {producto[0]} | Nombre: {producto[1]} | Descripción: {producto[2]} | Cantidad: {producto[3]} | Precio: ${producto[4]} | Categoría: {producto[5]}")
+    else:
+        print("No hay ningún producto registrado.")
+    conexion.commit()
+    conexion.close()
+
+def eliminar_producto():
+    print(cl.Fore.RED + "\n-------------------------------------------\n • Seleccionaste ELIMINAR PRODUCTO •\n-------------------------------------------\n")
+    conexion = sql.connect("inventario.db")
+    cursor = conexion.cursor()
+    ID_producto = int(input("Ingrese el ID del producto a eliminar: "))
+    cursor.execute('DELETE FROM productos WHERE id = ?',
+        (ID_producto,))
+    conexion.commit()
+    print("Producto eliminado.")
     conexion.commit()
     conexion.close()
     
