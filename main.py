@@ -15,15 +15,15 @@ def gestion_de_inventario():
             fn.registrar_producto()
         elif (accion == 4):
             fn.eliminar_producto()
+        elif (accion == 6):
+            print(cl.Fore.CYAN + "\n------------------------------------\n • Seleccionaste CONTROL DE STOCK •\n------------------------------------\n")
+            limite = int(input(" > Ingrese el umbral de bajo stock (por ejemplo, 20): "))
+            fn.control_stock(limite)
         elif (accion ==7):
             print("\nGracias por utilizar el programa.\n")
             break
         else:
             print("Input error")
-
-
-
-
 
 
 gestion_de_inventario()

@@ -1,3 +1,16 @@
+#----------------------------------------------------------------------------------------------------------------------------
+# color map:
+#    print(cl.Fore.MAGENTA +"\n---------------------------\n • Gestión de Inventario •\n---------------------------\n")     SYSTEM
+#   + print(cl.Fore.GREEN + "(1) - Registrar un producto")                                                                   ADD
+#   + print(cl.Fore.YELLOW + "(2) - Ver todos los productos")                                                                READ 
+#    print(cl.Fore.GREEN + "(3) - Actualizar cantidad de un producto")                                                      UPDATE
+#   + print(cl.Fore.RED + "(4) - Eliminar un producto")                                                                      DELETE
+#    print(cl.Fore.YELLOW + "(5) - Buscar un producto")                                                                     READ
+#   + print(cl.Fore.CYAN + "(6) - Control de stock")                                                                         READ
+#    print(cl.Fore.WHITE + "(7) - Salir\n")                                                                                 EXIT
+
+#----------------------------------------------------------------------------------------------------------------------------
+
 import sqlite3 as sql
 import colorama as cl
 cl.init()
@@ -64,24 +77,26 @@ def mostrar_productos():
     conexion.close()
 
 def eliminar_producto():
-    print(cl.Fore.RED + "\n-------------------------------------------\n • Seleccionaste ELIMINAR PRODUCTO •\n-------------------------------------------\n")
+    print(cl.Fore.RED + "\n-------------------------------------\n • Seleccionaste ELIMINAR PRODUCTO •\n-------------------------------------\n")
     conexion = sql.connect("inventario.db")
     cursor = conexion.cursor()
-    ID_producto = int(input("Ingrese el ID del producto a eliminar: "))
-    cursor.execute('DELETE FROM productos WHERE id = ?',
-        (ID_producto,))
+    ID_producto = int(input(" > Ingrese el ID del producto a eliminar: "))
+    cursor.execute('DELETE FROM productos WHERE id = ?', (ID_producto,))
     conexion.commit()
-    print("Producto eliminado.")
+    print("\nProducto eliminado.\n")
     conexion.commit()
     conexion.close()
-    
-# colores:
-#    print(cl.Fore.MAGENTA +"\n---------------------------\n • Gestión de Inventario •\n---------------------------\n")     SYSTEM
-#    print(cl.Fore.GREEN + "(1) - Registrar un producto")                                                                   ADD
-#    print(cl.Fore.YELLOW + "(2) - Ver todos los productos")                                                                READ 
-#    print(cl.Fore.GREEN + "(3) - Actualizar cantidad de un producto")                                                      UPDATE
-#    print(cl.Fore.RED + "(4) - Eliminar un producto")                                                                      DELETE
-#    print(cl.Fore.YELLOW + "(5) - Buscar un producto")                                                                     READ
-#    print(cl.Fore.CYAN + "(6) - Control de stock")                                                                         READ
-#    print(cl.Fore.WHITE + "(7) - Salir\n")                                                                                 EXIT
-    
+
+def control_stock(limite):
+    conexion = sql.connect("inventario.db")
+    cursor = conexion.cursor()
+    cursor.execute("SELECT * FROM productos WHERE cantidad <= ?", (limite,))
+    productos = cursor.fetchall()
+    print("\n--------------------------------------------------------\n • PRODUCTOS CON STOCK POR DEBAJO DEL UMBRAL INDICADO •\n--------------------------------------------------------\n")
+    if (len(productos)>0):
+        for producto in productos:
+            print(f"ID: {producto[0]} | Nombre: {producto[1]} | Descripción: {producto[2]} | Cantidad: {producto[3]} | Precio: ${producto[4]} | Categoría: {producto[5]}")
+    else:
+        print("No hay ningún producto con stock por debajo del indicado.")
+    conexion.commit()
+    conexion.close()
