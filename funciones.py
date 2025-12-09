@@ -100,3 +100,13 @@ def control_stock(limite):
         print("No hay ningún producto con stock por debajo del indicado.")
     conexion.commit()
     conexion.close()
+
+def actualizar_cantidad_de_producto():
+    id_producto = int(input(" > Ingrese el ID del producto que desea actualizar: "))
+    nueva_cantidad = int(input(" > Ingrese la cantidad actualizada: "))
+    conexion = sql.connect("inventario.db")
+    cursor = conexion.cursor()
+    cursor.execute('UPDATE productos SET cantidad = ? WHERE id = ?', (nueva_cantidad, id_producto))
+    conexion.commit()
+    conexion.close()
+    print ("\nProducto actualizado exitosamente.\n")
