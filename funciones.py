@@ -25,6 +25,52 @@ def nueva_tabla():
     conexion.commit()
     conexion.close()
 
+def ingresar_nombre():
+    while True:
+        try:
+            ingreso = input(f"Ingrese el nombre del producto: ").strip().capitalize()
+            if (len(ingreso) < 1):
+                raise ValueError(f"El campo no puede quedar vacío.\n Intente nuevamente.\n")
+            else:
+                break
+        except ValueError as error:
+            print(cl.Fore.RED + f"\n ERROR | {error}" + cl.Fore.GREEN)
+            continue
+    return ingreso
+
+def ingresar_dato_opcional(dato):
+    ingreso = input(f"(OPCIONAL) Ingrese {dato} del producto: ").strip().capitalize()
+    return ingreso
+
+def ingresar_cantidad():
+    while True:
+        try:
+            ingreso = input("Ingrese la cantidad del producto: ").strip()
+            if ingreso == "":
+                raise ValueError("Debe ingresar un número. (ej: 10 | 500 | 1000)")
+            elif not ingreso.isdigit():
+                raise ValueError("Ingrese únicamente números enteros, sin comas ni puntos. (ej: 10 | 500 | 1000)")
+            cantidad = int(ingreso)
+            return cantidad
+        except ValueError as error:
+            print(cl.Fore.RED + f"\n ERROR | {error}\n" + cl.Fore.GREEN)
+            continue
+
+def ingresar_precio():
+    while True:
+        try:
+            ingreso = input("Ingrese el precio del producto: $").strip()
+            if ingreso == "":
+                raise ValueError("Debe ingresar un número. (ej: 10 | 10.50 | 10,50)")
+            ingreso = ingreso.replace(",", ".")
+            precio = float(ingreso)
+            if precio < 0:
+                raise ValueError("El precio no puede ser negativo.\n Intente nuevamente.")
+            return precio
+        except ValueError:
+            print(cl.Fore.RED + "\n ERROR | Ingrese un número válido (ej: 10 | 10.50 | 10,50)\n" + cl.Fore.GREEN)
+            continue
+
 def menu():
     print(cl.Fore.MAGENTA +"\n---------------------------\n • Gestión de Inventario •\n---------------------------\n")
     print(cl.Fore.WHITE + "(1) - Registrar un producto")
@@ -39,11 +85,11 @@ def menu():
 
 def registrar_producto():
     print(cl.Fore.GREEN + "\n-----------------------------------------\n • Seleccionaste REGISTRAR UN PRODUCTO •\n-----------------------------------------\n")
-    nombre_prod = input("Ingrese el nombre del producto: ").lower().capitalize()
-    descripcion_prod = input("Ingrese una breve descripción: ").lower().capitalize()
-    cantidad_prod = int(input("Ingrese la cantidad: "))
-    precio_prod = float(input("Ingrese el precio del producto: $").replace(",", "."))
-    categoria_prod = input("Ingrese la categoría del producto: ").lower().capitalize()
+    nombre_prod = ingresar_nombre()
+    descripcion_prod = ingresar_dato_opcional("descripción")
+    cantidad_prod = ingresar_cantidad()
+    precio_prod = ingresar_precio()
+    categoria_prod = ingresar_dato_opcional("categoría")
 
     conexion = sql.connect("inventario.db")
     cursor = conexion.cursor()
