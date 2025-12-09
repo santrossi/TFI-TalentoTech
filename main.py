@@ -1,4 +1,9 @@
+#----------------------------------------------------------------------------------------------------------------------------
 
+# En este archivo se encuentra el código principal del programa de gestión de inventario
+
+
+#----------------------------------------------------------------------------------------------------------------------------
 import funciones as fn
 import sqlite3 as sql
 import colorama as cl
@@ -30,7 +35,4 @@ def gestion_de_inventario():
         else:
             print(cl.Fore.RED + "\n ERROR | Ingrese una opción numérica válida.\n")
 
-
 gestion_de_inventario()
-
-
