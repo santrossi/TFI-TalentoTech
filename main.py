@@ -9,8 +9,6 @@ import sqlite3 as sql
 import colorama as cl
 cl.init()
 
-print ("hola")
-
 def gestion_de_inventario():
     fn.nueva_tabla()
     while(True):
