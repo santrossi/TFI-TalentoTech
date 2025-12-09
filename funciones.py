@@ -1,13 +1,13 @@
 #----------------------------------------------------------------------------------------------------------------------------
 # color map:
-#    print(cl.Fore.MAGENTA +"\n---------------------------\n • Gestión de Inventario •\n---------------------------\n")     SYSTEM
+#   + print(cl.Fore.MAGENTA +"\n---------------------------\n • Gestión de Inventario •\n---------------------------\n")     SYSTEM
 #   + print(cl.Fore.GREEN + "(1) - Registrar un producto")                                                                   ADD
 #   + print(cl.Fore.YELLOW + "(2) - Ver todos los productos")                                                                READ 
-#    print(cl.Fore.GREEN + "(3) - Actualizar cantidad de un producto")                                                      UPDATE
+#   + print(cl.Fore.GREEN + "(3) - Actualizar cantidad de un producto")                                                      UPDATE
 #   + print(cl.Fore.RED + "(4) - Eliminar un producto")                                                                      DELETE
 #    print(cl.Fore.YELLOW + "(5) - Buscar un producto")                                                                     READ
 #   + print(cl.Fore.CYAN + "(6) - Control de stock")                                                                         READ
-#    print(cl.Fore.WHITE + "(7) - Salir\n")                                                                                 EXIT
+#   + print(cl.Fore.WHITE + "(7) - Salir\n")                                                                                 EXIT
 
 #----------------------------------------------------------------------------------------------------------------------------
 
@@ -102,6 +102,7 @@ def control_stock(limite):
     conexion.close()
 
 def actualizar_cantidad_de_producto():
+    print(cl.Fore.GREEN + "\n------------------------------------------------------\n • Seleccionaste ACTUALIZAR CANTIDAD DE UN PRODUCTO •\n------------------------------------------------------\n")
     id_producto = int(input(" > Ingrese el ID del producto que desea actualizar: "))
     nueva_cantidad = int(input(" > Ingrese la cantidad actualizada: "))
     conexion = sql.connect("inventario.db")
@@ -110,3 +111,11 @@ def actualizar_cantidad_de_producto():
     conexion.commit()
     conexion.close()
     print ("\nProducto actualizado exitosamente.\n")
+
+def buscar_producto():
+    print(cl.Fore.YELLOW + "\n--------------------------------------\n • Seleccionaste BUSCAR UN PRODUCTO •\n--------------------------------------\n")
+    id_producto = int(input(" > Ingrese el ID del producto que desea buscar: "))
+    conexion = sql.connect("inventario.db")
+    cursor = conexion.cursor()
+    cursor.execute('SELECT * FROM productos WHERE id = ?', (id_producto,))
+    productos = cursor.fetchall()
