@@ -28,7 +28,7 @@ def nueva_tabla():
 def ingresar_nombre():
     while True:
         try:
-            ingreso = input(f"Ingrese el nombre del producto: ").strip().capitalize()
+            ingreso = input(f" > Ingrese el nombre del producto: ").strip().capitalize()
             if (len(ingreso) < 1):
                 raise ValueError(f"El campo no puede quedar vacío.\n Intente nuevamente.\n")
             else:
@@ -39,13 +39,13 @@ def ingresar_nombre():
     return ingreso
 
 def ingresar_dato_opcional(dato):
-    ingreso = input(f"(OPCIONAL) Ingrese {dato} del producto: ").strip().capitalize()
+    ingreso = input(f" > Ingrese {dato} del producto (opcional): ").strip().capitalize()
     return ingreso
 
-def ingresar_cantidad():
+def ingresar_numero(detalle):
     while True:
         try:
-            ingreso = input("Ingrese la cantidad del producto: ").strip()
+            ingreso = input(f" > Ingrese {detalle}: ").strip()
             if ingreso == "":
                 raise ValueError("Debe ingresar un número. (ej: 10 | 500 | 1000)")
             elif not ingreso.isdigit():
@@ -59,7 +59,7 @@ def ingresar_cantidad():
 def ingresar_precio():
     while True:
         try:
-            ingreso = input("Ingrese el precio del producto: $").strip()
+            ingreso = input(" > Ingrese el precio del producto: $").strip()
             if ingreso == "":
                 raise ValueError("Debe ingresar un número. (ej: 10 | 10.50 | 10,50)")
             ingreso = ingreso.replace(",", ".")
@@ -72,7 +72,7 @@ def ingresar_precio():
             continue
 
 def menu():
-    print(cl.Fore.MAGENTA +"\n---------------------------\n • Gestión de Inventario •\n---------------------------\n")
+    print(cl.Fore.MAGENTA +"\n----------------------------------\n • MENU | Gestión de Inventario •\n----------------------------------\n")
     print(cl.Fore.WHITE + "(1) - Registrar un producto")
     print("(2) - Ver todos los productos")
     print("(3) - Actualizar cantidad de un producto")
@@ -80,14 +80,14 @@ def menu():
     print("(5) - Buscar un producto")
     print("(6) - Control de stock")
     print("(7) - Salir\n")
-    accion = int(input(cl.Fore.MAGENTA + "\n > Ingrese el número de la acción que desea realizar: "))
+    accion = ingresar_numero(cl.Fore.WHITE + "el número de la acción que desea realizar")
     return accion
 
 def registrar_producto():
     print(cl.Fore.GREEN + "\n-----------------------------------------\n • Seleccionaste REGISTRAR UN PRODUCTO •\n-----------------------------------------\n")
     nombre_prod = ingresar_nombre()
     descripcion_prod = ingresar_dato_opcional("descripción")
-    cantidad_prod = ingresar_cantidad()
+    cantidad_prod = ingresar_numero("la cantidad del producto")
     precio_prod = ingresar_precio()
     categoria_prod = ingresar_dato_opcional("categoría")
 
@@ -118,21 +118,21 @@ def mostrar_productos():
 
 def actualizar_cantidad_de_producto():
     print(cl.Fore.GREEN + "\n------------------------------------------------------\n • Seleccionaste ACTUALIZAR CANTIDAD DE UN PRODUCTO •\n------------------------------------------------------\n")
-    id_producto = int(input(" > Ingrese el ID del producto que desea actualizar: "))
-    nueva_cantidad = int(input(" > Ingrese la cantidad actualizada: "))
+    id_producto = ingresar_numero(cl.Fore.GREEN + "el ID del producto que desea actualizar")
+    nueva_cantidad = ingresar_numero(cl.Fore.GREEN + "la cantidad actualizada")
     conexion = sql.connect("inventario.db")
     cursor = conexion.cursor()
     cursor.execute('UPDATE productos SET cantidad = ? WHERE id = ?', (nueva_cantidad, id_producto))
     conexion.commit()
     conexion.close()
-    print ("\nCantidad actualizada exitosamente.\n")
+    print (cl.Fore.GREEN + "\nCantidad actualizada exitosamente.\n")
 
 def eliminar_producto():
     print(cl.Fore.RED + "\n----------------------------------------\n • Seleccionaste ELIMINAR UN PRODUCTO •\n----------------------------------------\n")
     conexion = sql.connect("inventario.db")
     cursor = conexion.cursor()
-    ID_producto = int(input(" > Ingrese el ID del producto a eliminar: "))
-    cursor.execute('DELETE FROM productos WHERE id = ?', (ID_producto,))
+    id_producto = ingresar_numero(cl.Fore.RED + "el ID del producto a eliminar")
+    cursor.execute('DELETE FROM productos WHERE id = ?', (id_producto,))
     conexion.commit()
     print("\n------------------------\n - Producto eliminado -\n------------------------\n")
     conexion.commit()
@@ -140,7 +140,7 @@ def eliminar_producto():
 
 def buscar_producto():
     print(cl.Fore.YELLOW + "\n--------------------------------------\n • Seleccionaste BUSCAR UN PRODUCTO •\n--------------------------------------\n")
-    id_producto = int(input(" > Ingrese el ID del producto que desea buscar: "))
+    id_producto = ingresar_numero(cl.Fore.YELLOW + "el ID del producto que desea buscar")
     conexion = sql.connect("inventario.db")
     cursor = conexion.cursor()
     cursor.execute('SELECT * FROM productos WHERE id = ?', (id_producto,))
@@ -150,7 +150,9 @@ def buscar_producto():
     conexion.commit()
     conexion.close()
 
-def control_stock(limite):
+def control_stock():
+    print(cl.Fore.CYAN + "\n------------------------------------\n • Seleccionaste CONTROL DE STOCK •\n------------------------------------\n")
+    limite = ingresar_numero(cl.Fore.CYAN + "el umbral de bajo stock (por ejemplo, 20)")
     conexion = sql.connect("inventario.db")
     cursor = conexion.cursor()
     cursor.execute("SELECT * FROM productos WHERE cantidad <= ?", (limite,))
@@ -163,3 +165,6 @@ def control_stock(limite):
         print("No hay ningún producto con stock por debajo del indicado.")
     conexion.commit()
     conexion.close()
+
+def cierre_programa():
+    print(cl.Fore.YELLOW + "\nGracias por utilizar el programa.\n" + cl.Style.RESET_ALL)
