@@ -11,7 +11,7 @@ La tabla **`productos`** debe contener las siguientes columnas:
 - **precio**: Precio del producto (real, no nulo).
 - **categoria**: Categoría a la que pertenece el producto (texto).
 
----
+
 
 ## 2. Funcionalidades de la aplicación
 
@@ -22,7 +22,7 @@ La tabla **`productos`** debe contener las siguientes columnas:
 - **Búsqueda de productos:** Ofrecer búsqueda por ID. Opcionalmente, búsqueda por nombre o categoría.
 - **Reporte de bajo stock:** Generar un reporte de productos cuya cantidad sea igual o inferior a un límite especificado por la persona usuaria.
 
----
+
 
 ## 3. Interfaz de usuario o usuaria
 
@@ -31,7 +31,7 @@ El menú principal debe incluir opciones para todas las funcionalidades descrita
 
 **Opcional:** Utilizar la librería `colorama` para mejorar la legibilidad y experiencia de uso mediante colores en la terminal.
 
----
+
 
 ## 4. Requisitos técnicos
 
